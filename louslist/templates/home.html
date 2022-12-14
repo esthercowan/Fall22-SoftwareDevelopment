@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% load socialaccount %}
+{% block pagecontent %}
+{% load static %}
+
+<link rel="stylesheet" href="{% static 'louslist/style.css' %}">
+    
+
+<style>
+  /* .background-image{
+    height: 120vh;
+    display: flex;
+  } */
+
+  .background-image{
+    height: 120vh;
+    background: linear-gradient(rgba(255,255,255,.5), rgba(255,255,255,.5)), url('https://180dc.org/wp-content/uploads/2019/01/rotunda-background.jpg');
+  }
+
+  h1 {
+    color: #000000;  
+  }
+    
+
+  
+</style>
+
+
+<!-- 
+<style>
+  body {
+    background: white url("img/rotunda.jpeg") no-repeat;
+  }
+</style> -->
+
+<div class="background-image" >
+  <body>
+    <figure class="text-center text-black " >
+      <h1 >
+        {% if user.is_authenticated %}
+          Welcome {{ user.username }}!
+        {% else %}
+          Welcome to the New Louslist!
+        {% endif %}   
+    
+      </h1>
+      <div class="h3">
+        {% if user.is_authenticated %}
+        
+        {% else %}
+        In this web-application, you will be able to view and search classes, <br>
+        save a prospective schedule, and see your friends' schedules. <br>
+        Please sign in to use all of the available features!
+        {% endif %}   
+      </div>
+  </body>
+</div>
+
+
+{% endblock %}
+

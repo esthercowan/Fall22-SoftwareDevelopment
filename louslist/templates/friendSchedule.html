@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block pagecontent %}
+{%load bootstrap5%}
+{%bootstrap_css%}
+
+<figure class="text-center bg-white text-black" >
+    <div class="h1" >
+        Make Request
+    </div>   
+</figure>
+
+<table class="table table-bordered text-center">
+    <thead>
+        <tr>
+            <th style="width: 50%" scope="col">{{ user }}</th>
+        </tr>
+    </thead>
+    <tbody>
+       {{ schedule }}
+    </tbody>
+</table>
+
+{% endblock %}

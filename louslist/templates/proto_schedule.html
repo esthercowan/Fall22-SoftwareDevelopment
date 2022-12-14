@@ -1,0 +1,176 @@
+{% extends 'base.html' %}
+
+{% block pagecontent %}
+{%load bootstrap5%} {%bootstrap_css%}
+
+<figure class="text-center bg-white text-black">
+  {% if friend %}
+  <div class="h1">
+    {{ friend.first_name }} {{ friend.last_name }}'s Schedule
+  </div>
+  {% else %}
+  <div class="h1">
+    Your Schedule
+  </div>
+  {% endif %}
+
+</figure>
+
+<div class="container overflow-auto">
+  <div class="row gx-5">
+    <div class="col">
+      <div class="p-4 border">
+        <style>
+          .container-large {
+            max-height: 75vh;
+          }
+        </style>
+
+        <div class="container-large overflow-auto">
+          <table class="table text-center table-bordered">
+            <thead>
+              <tr>
+                <th style="width: 16.66%" scope="col"></th>
+                <th style="width: 16.66%" scope="col">Mon</th>
+                <th style="width: 16.66%" scope="col">Tues</th>
+                <th style="width: 16.66%" scope="col">Wed</th>
+                <th style="width: 16.66%" scope="col">Thurs</th>
+                <th style="width: 16.66%" scope="col">Fri</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for t, day_list in time_blocks.items %}
+              <tr>
+                <th scope="row">{{t}}</th>
+                {% load custom_filters %}
+                {% for day_val in day_list %}
+                <td {% if not day_val|is_numeric %} class="table-dark" {% endif %} 
+                {% if day_val == 1 %} class="table-success" {% endif %} 
+                {% if day_val == 2 %} class="table-primary" {% endif %} 
+                {% if day_val == 3 %} class="table-warning" {% endif %} 
+                {% if day_val == 4 %} class="table-danger" {% endif %}
+                {% if day_val == 5 %} class="table-info" {% endif %} 
+                {% if day_val == 6 %} class="table-active" {% endif%}>
+                {% if not day_val|is_numeric %} {{day_val}} {% endif %}
+                </td>
+                {% endfor %}
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+          {% if friend == None %}
+        </div>
+        <div class="container overflow-hidden">
+          <div class="row gx-5">
+            <div class="col">
+              <div class="p-3 border">
+                <div class="h3 text-center">Delete Courses</div>
+                <figure class="text-center bg-white text-black">
+                  <div class="h4">Remove classes from your schedule?</div>
+                </figure>
+                <ul class="list-group">
+                  {% for c in courses %}
+                  <li class="list-group-item">
+                    {{c.subject}} {{c.catalog_number}} | Section {{c.course_section}}&nbsp;&nbsp;&nbsp;&nbsp;
+                    <button type="button" class="btn btn-primary btn-sm " data-bs-toggle="modal"
+                      data-bs-target="#confirmModal{{ forloop.counter }}">
+                      Remove
+                    </button>
+                    <div class="modal" tabindex="-1" id="confirmModal{{ forloop.counter }}"
+                      aria-labelledby="confirmModalLabel{{ forloop.counter }}">
+                      <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title" id="confirmModalLabel{{ forloop.counter }}">Confirm</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                            </button>
+                          </div>
+                          <div class="modal-body">
+                            <p>Are you sure you want to remove {{c.subject}} {{c.catalog_number}} from your schedule?
+                            </p>
+                          </div>
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                            <form action="{% url 'removeClass' c.course_number %}" id="remove{{ forloop.counter }}"
+                              method="post">
+                              {% csrf_token %}
+                              <button type="submit" class="btn btn-primary" form="remove{{ forloop.counter }}">
+                                Submit
+                              </button>
+                            </form>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </li>
+                  {% endfor %}
+                </ul>
+              </div>
+            </div>
+            <div class="col">
+              <div class="p-3 border">
+                <div class="h3 text-center">Comments</div>
+
+                <form method="post">
+                  {% csrf_token %}
+                  {% bootstrap_form form %}
+
+
+                  {% buttons %}
+                  <div class="container">
+                    <div class="col-md-12 text-center">
+                      <button type="submit" class="btn btn-primary">
+                        Submit
+                      </button>
+                      {% endbuttons %}
+                    </div>
+                  </div>
+
+                </form>
+
+                <ul class="list-group">
+                  {% for comment in comments %}
+                  <li class="list-group-item">
+                    <b>{{comment.user.username}}:</b> {{comment.text}}&nbsp;&nbsp;&nbsp;&nbsp;
+                  </li>
+                  {%endfor%}
+                </ul>
+
+              </div>
+            </div>
+          </div>
+        </div>
+        {% else %}
+        <h3 class="text-center">Comments</h3>
+        <form method="post">
+          {% csrf_token %}
+          {% bootstrap_form form %}
+
+
+          {% buttons %}
+          <div class="container">
+            <div class="col-md-12 text-center">
+              <button type="submit" class="btn btn-primary">
+                Submit
+              </button>
+              {% endbuttons %}
+            </div>
+          </div>
+
+        </form>
+        <ul class="list-group">
+          {% for comment in comments %}
+          <li class="list-group-item">
+            <b>{{comment.user.username}}:</b> {{comment.text}}&nbsp;&nbsp;&nbsp;&nbsp;
+          </li>
+          {%endfor%}
+        </ul>
+
+        {% endif %}
+
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

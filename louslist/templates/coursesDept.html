@@ -1,0 +1,193 @@
+{% extends 'base.html' %} {% block pagecontent %}
+{% if messages %}
+ <!-- alert -->
+ <ul class="messages">
+  {% for message in messages %}
+  {% if message.level == DEFAULT_MESSAGE_LEVELS.INFO %}
+  <body>
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+  </body>
+  {% elif message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+  <body>
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+  </body>
+  {% endif %}
+  {% endfor %}
+ </ul>
+ {% endif %}
+
+<figure class="text-center bg-white text-black">
+  <div class="h1">Courses - {{dept}}</div>
+</figure>
+
+{% for subj in data %}
+<figure class="text-center bg-white text-black">
+  <div class="h4">{{ subj.0.subj_name }}</div>
+</figure>
+<table class="table table-striped">
+  <thead >
+    <tr>
+      <th scope="col">Course Number</th>
+      <th scope="col">Course</th>
+      <th scope="col">Name</th>
+      <th scope="col">Section</th>
+      <th scope="col">Capacity</th>
+      <th scope="col">Instructor</th>
+      <th scope="col">Unit</th>
+      <th scope="col">Component</th>
+      <th scope="col">Meeting</th>
+      <th scope="col">Time</th>
+      <th scope="col">Location</th>
+      <th scope="col">Rating</th>
+      <th scope="col">Your Rating</th>
+      <th scope="col">Add to Schedule</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for d in subj %}
+
+    <tr>
+      <th scope="row">{{d.course_number}}</th>
+      <td>{{d.subject}} {{d.catalog_number}}</td>
+      <td>{{d.description}}</td>
+      <td>{{d.course_section}}</td>
+      <td>{{d.enrollment_available}}/{{d.class_capacity}}</td>
+      <td>{{d.instructor.name}}</td>
+      <td>{{d.units}}</td>
+      <td>{{d.component}}</td>
+      <td>{{d.meetings.0.days}}</td>
+      <!-- <td>{{d.meetings.0.days}} #{{d.meetings.0.start_time}} {{d.meetings.0.end_time}}</td> -->
+      <td>{{d.time}}</td>
+      <td>{{d.meetings.0.facility_description}}</td>
+      <td>{{d.rating}}</td>
+      <td>
+        <!-- Button trigger modal -->
+        <button
+          type="button"
+          id="button{{ forloop.parentloop.counter }}_{{ forloop.counter }}"
+          class="btn btn-primary"
+          data-bs-toggle="modal"
+          data-bs-target="#exampleModal{{ forloop.parentloop.counter }}_{{ forloop.counter }}"
+        >
+          Rating
+        </button>
+
+        <!-- Modal -->
+        <div
+          class="modal fade"
+          id="exampleModal{{ forloop.parentloop.counter }}_{{ forloop.counter }}"
+          tabindex="-1"
+          aria-labelledby="exampleModalLabel{{ forloop.parentloop.counter }}_{{ forloop.counter }}"
+          aria-hidden="true"
+        >
+          <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel{{ forloop.parentloop.counter }}_{{ forloop.counter }}">Your rating</h5>
+                <button
+                  type="button"
+                  class="btn-close"
+                  data-bs-dismiss="modal"
+                  aria-label="Close"
+                ></button>
+              </div>
+              <div class="modal-body">
+                <p>Your current rating for {{d.subject}} {{d.catalog_number}} Section {{d.course_section}}: {{d.user_rating}}</p>
+                <form class="form-inline text-center" id="rate{{ forloop.parentloop.counter }}_{{ forloop.counter }}" name="rating" action="{% url 'validate' dept.dept_url_shorthand d.course_number %}" method="post">
+                  {% csrf_token %}
+                  <fieldset>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="radio" name="rating" id="rate{{ forloop.parentloop.counter }}_{{ forloop.counter }}1" value="1">
+                      <label class="form-check-label" for="rate{{ forloop.parentloop.counter }}_{{ forloop.counter }}1">1</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="radio" name="rating" id="rate{{ forloop.parentloop.counter }}_{{ forloop.counter }}2" value="2">
+                      <label class="form-check-label" for="rate{{ forloop.parentloop.counter }}_{{ forloop.counter }}2">2</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="radio" name="rating" id="rate{{ forloop.parentloop.counter }}_{{ forloop.counter }}3" value="3">
+                      <label class="form-check-label" for="rate{{ forloop.parentloop.counter }}_{{ forloop.counter }}3">3</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="radio" name="rating" id="rate{{ forloop.parentloop.counter }}_{{ forloop.counter }}4" value="4">
+                      <label class="form-check-label" for="rate{{ forloop.parentloop.counter }}_{{ forloop.counter }}4">4</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="radio" name="rating" id="rate{{ forloop.parentloop.counter }}_{{ forloop.counter }}5" value="5">
+                      <label class="form-check-label" for="rate{{ forloop.parentloop.counter }}_{{ forloop.counter }}5">5</label>
+                    </div>
+                  </fieldset>
+                  <button
+                    type="submit"
+                    class="btn btn-primary my-1"
+                    form="rate{{ forloop.parentloop.counter }}_{{ forloop.counter }}"
+                    id="submit{{ forloop.parentloop.counter }}_{{ forloop.counter }}"
+                  >
+                    Submit
+                  </button>
+                  <script>
+                    let btn = document.querySelector('#submit');
+                    let radioButtons = document.querySelectorAll('input[name="rating"]');
+                    btn.disabled = true;
+                    for (const radioButton of radioButtons) {
+                      radioButton.addEventListener("change", stateHandle);
+                    };
+                    function stateHandle() {
+                      btn.disabled = false;
+                    }
+                  </script>
+                </form>
+              </div>
+              <div class="modal-footer"></div>
+            </div>
+          </div>
+        </div>
+      </td>
+      <td>
+      {% if d.course_number in added %}
+        <button type="button" class="btn btn-primary" disabled="true" id="added{{ forloop.parentloop.counter }}_{{ forloop.counter }}">
+          Added
+        </button>
+
+      {% elif d.course_number not in added %}
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#confirmModal{{ forloop.parentloop.counter }}_{{ forloop.counter }}">Add</button>
+            <div class="modal" tabindex="-1" id="confirmModal{{ forloop.parentloop.counter }}_{{ forloop.counter }}" aria-labelledby="#confirmModal{{ forloop.parentloop.counter }}_{{ forloop.counter }}">
+              <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="confirmModalLabel{{ forloop.parentloop.counter }}_{{ forloop.counter }}">Confirm</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    <p>Add {{d.subject}} {{d.catalog_number}} to your schedule?</p>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <form action="{% url 'addClass' d.subject d.course_number dept.dept_url_shorthand %}" id="add{{ forloop.parentloop.counter }}_{{ forloop.counter }}" method="post">
+                      {% csrf_token %}
+                      <button
+                        type="submit"
+                        class="btn btn-primary"
+                        value="{{d.course_number}}"
+                        form="add{{ forloop.parentloop.counter }}_{{ forloop.counter }}">
+                        Submit
+                      </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+      {% endif %}
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endfor %}
+{% endblock %}

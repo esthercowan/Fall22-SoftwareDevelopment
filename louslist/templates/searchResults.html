@@ -1,0 +1,71 @@
+{% extends 'base.html' %} {% load socialaccount %} {% block pagecontent %}
+{%load bootstrap5%} {%bootstrap_css%}
+
+<figure class="text-center bg-white text-black">
+  <div class="h1">Search Results</div>
+</figure>
+
+<body>
+  {% if data %}
+
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th scope="col">Course Number</th>
+        <th scope="col">Course</th>
+        <th scope="col">Name</th>
+        <th scope="col">Section</th>
+        <th scope="col">Capacity</th>
+        <th scope="col">Instructor</th>
+        <th scope="col">Unit</th>
+        <th scope="col">Component</th>
+        <th scope="col">Meeting</th>
+        <th scope="col">Time</th>
+        <th scope="col">Location</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for d in data %}
+      <tr>
+        <th scope="row">{{d.course_number}}</th>
+        <td>{{d.subject}} {{d.catalog_number}}</td>
+        <td>{{d.description}}</td>
+        <td>{{d.course_section}}</td>
+        <td>{{d.enrollment_total}}/{{d.class_capacity}}</td>
+        <td>{{d.instructor.name}}</td>
+        <td>{{d.units}}</td>
+        <td>{{d.component}}</td>
+        <td>{{d.meetings.0.days}}</td>
+        <!-- <td>{{d.meetings.0.days}} #{{d.meetings.0.start_time}} {{d.meetings.0.end_time}}</td> -->
+        <td>{{d.time}}</td>
+        <td>{{d.meetings.0.facility_description}}</td>
+      </tr>
+      {% endfor%}
+    </tbody>
+  </table>
+
+  {% else %}
+  <figure class="text-center bg-white text-black">
+    <div class="h1">Sorry, we couldn't find any courses with that name.</div>
+  </figure>
+  {% endif %} {% buttons %}
+  <div class="container bg-light">
+    <div class="col-md-12 text-center">
+      <a href="{% url 'search'%}" class="btn btn-primary" role="button">Search for other courses?</a>
+    </div>
+  </div>
+  {% endbuttons %}
+</body>
+
+<script>
+  function submitRating() {
+    rating += 1;
+  }
+</script>
+<!-- <footer class="bg-white text-center text-lg-start fixed-bottom">
+    <div class="text-center p-3">
+        © A-02
+    </div>
+</footer> -->
+
+{% endblock %}

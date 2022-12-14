@@ -1,0 +1,30 @@
+{% extends 'base.html' %} {% load socialaccount %} {% block pagecontent %}
+{%load bootstrap5%} {%bootstrap_css%}
+
+<figure class="text-center bg-white text-black">
+  <div class="h1">Search</div>
+</figure>
+<div class="container overflow-hidden">
+  <div class="row gx-5">
+    <div class="col">
+     <div class="p-4 border">
+      <form method="post" enctype="multipart/form-data">
+        {% csrf_token %} {% bootstrap_form form %} {% buttons %}
+            <button type="submit" href="search-results" class="btn btn-primary">
+              Submit
+            </button>
+            {% endbuttons %}
+      </form>
+     </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- <footer class="bg-white text-center text-lg-start fixed-bottom">
+    <div class="text-center p-3">
+      © A-02
+    </div>
+  </footer> -->
+
+{% endblock %}

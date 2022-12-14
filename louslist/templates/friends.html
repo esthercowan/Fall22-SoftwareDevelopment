@@ -1,0 +1,112 @@
+{% extends 'base.html' %} {% block pagecontent %}
+
+
+<figure class="text-center bg-white text-black">
+  <div class="h1">Friends of {{user.first_name}} {{user.last_name}}</div>
+</figure>
+
+<div class="container overflow-hidden">
+  <div class="row gx-5">
+    <div class="col">
+     <div class="p-3 border">
+      <div class="h3 text-center">Friend Requests</div>
+      <table class="table table-stiped text-center align-middle">
+        <thead>
+          <tr>
+            <th style="width: 60%" scope="col">Friend Requests</th>
+            <th style="width: 20%" scope="col">Accept Request</th>
+            <th style="width: 20%" scope="col">Deny Request</th>
+
+          </tr>
+        </thead>
+        <tbody>
+          {% for thing in friendRequests %}
+          <tr>
+              <th scope="row" >
+                <a href="{% url 'schedule'%}" scope="row">{{thing}}</a>
+              </th>
+              <th scope="row">
+                <a
+                href="/friends/request/accept_friend_request/{{thing.id}}/"
+                class="btn btn-primary btn-sm"
+                role="button"
+                >Accept </a
+              >
+              </th>
+              <th scope="row">
+                <a
+                href="/friends/request/deny_friend_request/{{thing.id}}/"
+                class="btn btn-primary btn-sm"
+                role="button"
+                >Deny </a
+              >
+              </th>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      <table class="table table-bordered text-center align-middle">
+        <tbody>
+          <tr>
+            <th scope="row">
+              <a
+              href="{% url 'friendRequests'%}"
+              class="btn btn-primary btn-sm"
+              role="button"
+              >Make Request </a
+            >
+            </th>
+          </tr>
+        </tbody>
+      </table>
+     </div>
+    </div>
+    <div class="col">
+      <div class="p-3 border">
+        <div class="h3 text-center">Friends</div>
+
+        <table class="table table-striped text-center">
+          <thead>
+            <tr>
+              <th style="width: 30%" scope="col">User</th>
+              <th style="width: 30%" scope="col">Email</th>
+              <th style="width: 20%" scope="col">Schedule</th>
+              <th style="width: 20%" scope="col">Unfollow</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for friend in friends %} {% if friend.person1 == user %}
+            <tr class="align-middle">
+              <th scope="row">
+               {{friend.person2.first_name}} {{friend.person2.last_name}}
+              </th>
+              <th scope="row">
+                {{friend.person2.email}} 
+               </th>
+              <th scope="row">
+                <a
+                  href="{% url 'friendSchedule' friend.person2.username %}"
+                  class="btn btn-primary btn-sm"
+                  role="button"
+                  >Go</a
+                >
+              </th>
+              <th scope="row">
+                <a
+                  href="/friends/delete_friend/{{friend.id}}/"
+                  class="btn btn-primary btn-sm"
+                  role="button"
+                  >Unfollow</a
+                >
+              </th>
+            </tr>
+            {% endif %} {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+{% endblock %}

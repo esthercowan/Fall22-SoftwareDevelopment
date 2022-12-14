@@ -1,0 +1,586 @@
+{% extends 'base.html' %} {% block pagecontent %}
+
+<style>
+  .nav-pills .nav-link.active,
+  .nav-pills .show > .nav-link {
+    color: black;
+    background-color: white;
+    border: solid 1px black;
+    border-radius: none;
+  }
+  .nav-pills .nav-link,
+  .nav-pills .show > .nav-link {
+    color: white;
+    background-color: #232d4b;
+    border: solid 1px black;
+    border-radius: none !important;
+  }
+
+  .tab-content {
+    max-height: 70vh;
+    width: 100vh;
+  }
+
+  .container-large {
+    max-height: 100vh;
+  }
+
+  a:link,
+  a:visited {
+    color: black;
+  }
+</style>
+
+<figure class="text-center bg-white text-black">
+  <div class="h1">Courses</div>
+</figure>
+
+<div class="container-large overflow-auto">
+  <div class="row">
+    <div class="col-1"></div>
+    <div class="col-10 p-4 border border-dark">
+      <div class="d-flex align-items-start">
+        <div
+          class="nav flex-column nav-pills me-3 border-2"
+          id="nav-pills"
+          role="tablist"
+          aria-orientation="vertical"
+          style="overflow-y: scroll"
+        >
+          <a
+            class="nav-item nav-link active"
+            id="nav-cas-tab"
+            data-bs-toggle="pill"
+            data-bs-target="#nav-cas"
+            href="#cas"
+            role="tab"
+            aria-controls="nav-cas"
+            aria-selected="True"
+            >College of Arts and Sciences</a
+          >
+          <a
+            class="nav-item nav-link"
+            id="nav-seas-tab"
+            data-bs-toggle="pill"
+            data-bs-target="#nav-seas"
+            href="#seas"
+            role="tab"
+            aria-controls="nav-seas"
+            aria-selected="False"
+            >School of Engineering and Applied Sciences</a
+          >
+          <a
+            class="nav-item nav-link"
+            id="nav-batten-tab"
+            data-bs-toggle="pill"
+            data-bs-target="#nav-batten"
+            href="#batten"
+            role="tab"
+            aria-controls="nav-batten"
+            aria-selected="False"
+            >Batten School of Leadership and Public Policy</a
+          >
+          <a
+            class="nav-item nav-link"
+            id="nav-curry-tab"
+            data-bs-toggle="pill"
+            data-bs-target="#nav-curry"
+            href="#curry"
+            role="tab"
+            aria-controls="nav-curry"
+            aria-selected="False"
+            >Curry School of Education and Human Development</a
+          >
+          <a
+            class="nav-item nav-link"
+            id="nav-darden-tab"
+            data-bs-toggle="pill"
+            data-bs-target="#nav-darden"
+            href="#darden"
+            role="tab"
+            aria-controls="nav-darden"
+            aria-selected="False"
+            >Darden School of Business</a
+          >
+          <a
+            class="nav-item nav-link"
+            id="nav-mcintire-tab"
+            data-bs-toggle="pill"
+            data-bs-target="#nav-mcintire"
+            href="#mcintire"
+            role="tab"
+            aria-controls="nav-mcintire"
+            aria-selected="False"
+            >McIntire School of Commerce</a
+          >
+          <a
+            class="nav-item nav-link"
+            id="nav-arch-tab"
+            data-bs-toggle="pill"
+            data-bs-target="#nav-arch"
+            href="#arch"
+            role="tab"
+            aria-controls="nav-arch"
+            aria-selected="False"
+            >School of Architecture</a
+          >
+          <a
+            class="nav-item nav-link"
+            id="nav-rotc-tab"
+            data-bs-toggle="pill"
+            data-bs-target="#nav-rotc"
+            href="#rotc"
+            role="tab"
+            aria-controls="nav-rotc"
+            aria-selected="False"
+            >Reserve Officers' Training Corps (ROTC)</a
+          >
+          <a
+            class="nav-item nav-link"
+            id="nav-scps-tab"
+            data-bs-toggle="pill"
+            data-bs-target="#nav-scps"
+            href="#scps"
+            role="tab"
+            aria-controls="nav-scps"
+            aria-selected="False"
+            >School of Continuing and Professional Studies</a
+          >
+          <a
+            class="nav-item nav-link"
+            id="nav-law-tab"
+            data-bs-toggle="pill"
+            data-bs-target="#nav-law"
+            href="#law"
+            role="tab"
+            aria-controls="nav-law"
+            aria-selected="False"
+            >School of Law</a
+          >
+          <a
+            class="nav-item nav-link"
+            id="nav-med-tab"
+            data-bs-toggle="pill"
+            data-bs-target="#nav-med"
+            href="#med"
+            role="tab"
+            aria-controls="nav-med"
+            aria-selected="False"
+            >School of Medicine</a
+          >
+          <a
+            class="nav-item nav-link"
+            id="nav-nursing-tab"
+            data-bs-toggle="pill"
+            data-bs-target="#nav-nursing"
+            href="#nursing"
+            role="tab"
+            aria-controls="nav-nursing"
+            aria-selected="False"
+            >School of Nursing</a
+          >
+          <a
+            class="nav-item nav-link"
+            id="nav-ds-tab"
+            data-bs-toggle="pill"
+            data-bs-target="#nav-ds"
+            href="#ds"
+            role="tab"
+            aria-controls="nav-ds"
+            aria-selected="False"
+            >School of Data Science</a
+          >
+        </div>
+        <div
+          class="tab-content flex-column"
+          id="nav-pillsContent"
+          style="overflow-y: scroll"
+        >
+          <div
+            class="tab-pane fade show active"
+            id="nav-cas"
+            role="tabpanel"
+            aria-labelledby="nav-cas-tab"
+          >
+            <p>
+              <a href="{% url 'coursesDept' 'aas' %}"
+                >African-American & African Studies</a
+              >
+            </p>
+            <p>
+              <a href="{% url 'coursesDept' 'asl' %}">American Sign Language</a>
+            </p>
+            <p><a href="{% url 'coursesDept' 'amst' %}">American Studies</a></p>
+            <p><a href="{% url 'coursesDept' 'anth' %}">Anthropology</a></p>
+            <p><a href="{% url 'coursesDept' 'art' %}">Art</a></p>
+            <p>
+              <a href="{% url 'coursesDept' 'cola' %}"
+                >Arts and Sciences Classes</a
+              >
+            </p>
+            <p><a href="{% url 'coursesDept' 'astronomy' %}">Astronomy</a></p>
+            <p><a href="{% url 'coursesDept' 'biol' %}">Biology</a></p>
+            <p><a href="{% url 'coursesDept' 'chemistry' %}">Chemistry</a></p>
+            <p><a href="{% url 'coursesDept' 'classics' %}">Classics</a></p>
+            <p>
+              <a href="{% url 'coursesDept' 'cogsci' %}">Cognitive Science</a>
+            </p>
+            <p><a href="{% url 'coursesDept' 'drama' %}">Drama</a></p>
+            <p>
+              <a href="{% url 'coursesDept' 'eallc' %}"
+                >East Asian Languages, Literatures, & Cultures</a
+              >
+            </p>
+            <p><a href="{% url 'coursesDept' 'econ' %}">Economics</a></p>
+            <p><a href="{% url 'coursesDept' 'english' %}">English</a></p>
+            <p>
+              <a href="{% url 'coursesDept' 'envsci' %}"
+                >Environmental Sciences</a
+              >
+            </p>
+            <p>
+              <a href="{% url 'coursesDept' 'french' %}"
+                >French Language & Literature</a
+              >
+            </p>
+            <p>
+              <a href="{% url 'coursesDept' 'german' %}"
+                >German Language & Literature</a
+              >
+            </p>
+            <p><a href="{% url 'coursesDept' 'history' %}">History</a></p>
+            <p><a href="{% url 'coursesDept' 'hbio' %}">Human Biology</a></p>
+            <p>
+              <a href="{% url 'coursesDept' 'interdis' %}"
+                >Interdisciplinary Studies</a
+              >
+            </p>
+            <p><a href="{% url 'coursesDept' 'math' %}">Mathematics</a></p>
+            <p><a href="{% url 'coursesDept' 'mdst' %}">Media Studies</a></p>
+            <p>
+              <a href="{% url 'coursesDept' 'mesalc' %}"
+                >Middle Eastern & South Asian Languages & Cultures</a
+              >
+            </p>
+            <p><a href="{% url 'coursesDept' 'music' %}">Music</a></p>
+            <p><a href="{% url 'coursesDept' 'neuro' %}">Neuroscience</a></p>
+            <p><a href="{% url 'coursesDept' 'philosophy' %}">Philosophy</a></p>
+            <p><a href="{% url 'coursesDept' 'physics' %}">Physics</a></p>
+            <p><a href="{% url 'coursesDept' 'politics' %}">Politics</a></p>
+            <p>
+              <a href="{% url 'coursesDept' 'pubhealth' %}"
+                >Public Health Sciences</a
+              >
+            </p>
+            <p><a href="{% url 'coursesDept' 'psych' %}">Psychology</a></p>
+            <p><a href="{% url 'coursesDept' 'rs' %}">Religious Studies</a></p>
+            <p>
+              <a href="{% url 'coursesDept' 'slavic' %}"
+                >Slavic Languages & Literatures</a
+              >
+            </p>
+            <p><a href="{% url 'coursesDept' 'sociology' %}">Sociology</a></p>
+            <p>
+              <a href="{% url 'coursesDept' 'sip' %}"
+                >Spanish, Italian & Portuguese</a
+              >
+            </p>
+            <p><a href="{% url 'coursesDept' 'stat' %}">Statistics</a></p>
+            <p>
+              <a href="{% url 'coursesDept' 'wgs' %}"
+                >Women, Gender, & Sexuality</a
+              >
+            </p>
+          </div>
+          <div
+            class="tab-pane fade"
+            id="nav-seas"
+            role="tabpanel"
+            aria-labelledby="nav-seas-tab"
+            style="overflow-y: scroll"
+          >
+            <p>
+              <a href="{% url 'coursesDept' 'apma' %}">Applied Mathematics</a>
+            </p>
+            <p>
+              <a href="{% url 'coursesDept' 'bme' %}">Biomedical Engineering</a>
+            </p>
+            <p>
+              <a href="{% url 'coursesDept' 'che' %}">Chemical Engineering</a>
+            </p>
+            <p>
+              <a href="{% url 'coursesDept' 'civil' %}">Civil Engineering</a>
+            </p>
+            <p><a href="{% url 'coursesDept' 'cs' %}">Computer Science</a></p>
+            <p>
+              <a href="{% url 'coursesDept' 'engr' %}"
+                >Cross-Disciplinary Courses</a
+              >
+            </p>
+            <p>
+              <a href="{% url 'coursesDept' 'ece' %}"
+                >Electrical & Computer Engineering</a
+              >
+            </p>
+            <p>
+              <a href="{% url 'coursesDept' 'mse' %}"
+                >Materials Science & Engineering</a
+              >
+            </p>
+            <p>
+              <a href="{% url 'coursesDept' 'mae' %}"
+                >Mechanical & Aerospace Engineering</a
+              >
+            </p>
+            <p>
+              <a href="{% url 'coursesDept' 'sts' %}"
+                >Science, Technology & Society</a
+              >
+            </p>
+            <p>
+              <a href="{% url 'coursesDept' 'sie' %}"
+                >Systems & Information Engineering</a
+              >
+            </p>
+          </div>
+          <div
+            class="tab-pane fade"
+            id="nav-batten"
+            role="tabpanel"
+            aria-labelledby="nav-batten-tab"
+            style="overflow-y: scroll"
+          >
+            <p>
+              <a href="{% url 'coursesDept' 'lppa' %}"
+                >Public Policy - Analysis</a
+              >
+            </p>
+            <p>
+              <a href="{% url 'coursesDept' 'lppl' %}"
+                >Public Policy - Leadership</a
+              >
+            </p>
+            <p>
+              <a href="{% url 'coursesDept' 'lppp' %}"
+                >Public Policy - Policy</a
+              >
+            </p>
+            <p>
+              <a href="{% url 'coursesDept' 'lpps' %}"
+                >Public Policy - Substance</a
+              >
+            </p>
+          </div>
+          <div
+            class="tab-pane fade"
+            id="nav-curry"
+            role="tabpanel"
+            aria-labelledby="nav-curry-tab"
+            style="overflow-y: scroll"
+          >
+            <p><a href="{% url 'coursesDept' 'edhs' %}">Human Services</a></p>
+            <p>
+              <a href="{% url 'coursesDept' 'edis' %}"
+                >Curriculum, Instruction & Special Education</a
+              >
+            </p>
+            <p>
+              <a href="{% url 'coursesDept' 'edlf' %}"
+                >Leadership, Foundations of Policy</a
+              >
+            </p>
+            <p>
+              <a href="{% url 'coursesDept' 'ednc' %}">Education Non-Credit</a>
+            </p>
+            <p><a href="{% url 'coursesDept' 'kine' %}">Kinesiology</a></p>
+            <p>
+              <a href="{% url 'coursesDept' 'klpa' %}"
+                >Lifetime Physical Activity</a
+              >
+            </p>
+          </div>
+          <div
+            class="tab-pane fade"
+            id="nav-darden"
+            role="tabpanel"
+            aria-labelledby="nav-darden-tab"
+            style="overflow-y: scroll"
+          >
+            <p>
+              <a href="{% url 'coursesDept' 'gbus' %}">Graduate Business</a>
+            </p>
+          </div>
+          <div
+            class="tab-pane fade"
+            id="nav-mcintire"
+            role="tabpanel"
+            aria-labelledby="nav-mcintire-tab"
+            style="overflow-y: scroll"
+          >
+            <p><a href="{% url 'coursesDept' 'comm' %}">Commerce</a></p>
+            <p>
+              <a href="{% url 'coursesDept' 'conc' %}">Commerce Non-Credit</a>
+            </p>
+            <p><a href="{% url 'coursesDept' 'entp' %}">Entrepreneurship</a></p>
+            <p>
+              <a href="{% url 'coursesDept' 'gcom' %}">Graduate Commerce</a>
+            </p>
+          </div>
+          <div
+            class="tab-pane fade"
+            id="nav-arch"
+            role="tabpanel"
+            aria-labelledby="nav-arch-tab"
+            style="overflow-y: scroll"
+          >
+            <p>
+              <a href="{% url 'coursesDept' 'alar' %}"
+                >Architecture and Landscape Architecture</a
+              >
+            </p>
+            <p>
+              <a href="{% url 'coursesDept' 'arah' %}"
+                >History of Art and Architecture</a
+              >
+            </p>
+            <p><a href="{% url 'coursesDept' 'arch' %}">Architecture</a></p>
+            <p>
+              <a href="{% url 'coursesDept' 'arh' %}">Architectural History</a>
+            </p>
+            <p>
+              <a href="{% url 'coursesDept' 'lar' %}">Landscape Architecture</a>
+            </p>
+            <p>
+              <a href="{% url 'coursesDept' 'plac' %}">Planning Application</a>
+            </p>
+            <p>
+              <a href="{% url 'coursesDept' 'plan' %}"
+                >Urban and Environmental Planning</a
+              >
+            </p>
+            <p>
+              <a href="{% url 'coursesDept' 'sarc' %}"
+                >School of Architecture</a
+              >
+            </p>
+          </div>
+          <div
+            class="tab-pane fade"
+            id="nav-rotc"
+            role="tabpanel"
+            aria-labelledby="nav-rotc-tab"
+            style="overflow-y: scroll"
+          >
+            <p><a href="{% url 'coursesDept' 'airs' %}">Air Science</a></p>
+            <p><a href="{% url 'coursesDept' 'misc' %}">Military Science</a></p>
+            <p><a href="{% url 'coursesDept' 'nasc' %}">Naval Science</a></p>
+          </div>
+          <div
+            class="tab-pane fade"
+            id="nav-scps"
+            role="tabpanel"
+            aria-labelledby="nav-scps-tab"
+            style="overflow-y: scroll"
+          >
+            <p><a href="{% url 'coursesDept' 'acct' %}">Accounting</a></p>
+            <p><a href="{% url 'coursesDept' 'bus' %}">Business</a></p>
+            <p><a href="{% url 'coursesDept' 'hr' %}">Human Resources</a></p>
+            <p><a href="{% url 'coursesDept' 'eurs' %}">European Studies</a></p>
+            <p>
+              <a href="{% url 'coursesDept' 'it' %}"
+                >Informational Technology</a
+              >
+            </p>
+            <p>
+              <a href="{% url 'coursesDept' 'ncpr' %}">Professional Review</a>
+            </p>
+            <p>
+              <a href="{% url 'coursesDept' 'pc' %}"
+                >Procurements & Contracts Management</a
+              >
+            </p>
+            <p>
+              <a href="{% url 'coursesDept' 'pshm' %}"
+                >Health Sciences Management</a
+              >
+            </p>
+            <p>
+              <a href="{% url 'coursesDept' 'pslp' %}">Leadership Program</a>
+            </p>
+            <p>
+              <a href="{% url 'coursesDept' 'pspa' %}">Public Administration</a>
+            </p>
+            <p>
+              <a href="{% url 'coursesDept' 'pspm' %}">Project Management</a>
+            </p>
+            <p><a href="{% url 'coursesDept' 'psps' %}">Public Safety</a></p>
+            <p>
+              <a href="{% url 'coursesDept' 'sec' %}"
+                >Cyber Security Analysis</a
+              >
+            </p>
+          </div>
+          <div
+            class="tab-pane fade"
+            id="nav-law"
+            role="tabpanel"
+            aria-labelledby="nav-law-tab"
+            style="overflow-y: scroll"
+          >
+            <p><a href="{% url 'coursesDept' 'law' %}">Law</a></p>
+          </div>
+          <div
+            class="tab-pane fade"
+            id="nav-med"
+            role="tabpanel"
+            aria-labelledby="nav-med-tab"
+            style="overflow-y: scroll"
+          >
+            <p>
+              <a href="{% url 'coursesDept' 'bims' %}">Biomedical Sciences</a>
+            </p>
+            <p><a href="{% url 'coursesDept' 'bioc' %}">Biochemistry</a></p>
+            <p><a href="{% url 'coursesDept' 'biop' %}">Biophysics</a></p>
+            <p><a href="{% url 'coursesDept' 'cell' %}">Cell Biology</a></p>
+            <p><a href="{% url 'coursesDept' 'med' %}">Medicine</a></p>
+            <p><a href="{% url 'coursesDept' 'micr' %}">Microbiology</a></p>
+            <p><a href="{% url 'coursesDept' 'path' %}">Pathology</a></p>
+            <p><a href="{% url 'coursesDept' 'phar' %}">Pharmacology</a></p>
+            <p><a href="{% url 'coursesDept' 'phy' %}">Physiology</a></p>
+          </div>
+          <div
+            class="tab-pane fade"
+            id="nav-nursing"
+            role="tabpanel"
+            aria-labelledby="nav-nursing-tab"
+            style="overflow-y: scroll"
+          >
+            <p>
+              <a href="{% url 'coursesDept' 'gcnl' %}">Clinical Nurse Leader</a>
+            </p>
+            <p><a href="{% url 'coursesDept' 'gnur' %}">Graduate Nursing</a></p>
+            <p><a href="{% url 'coursesDept' 'nuco' %}">Nursing Core</a></p>
+            <p>
+              <a href="{% url 'coursesDept' 'nuip' %}"
+                >Nursing Interprofessional</a
+              >
+            </p>
+            <p><a href="{% url 'coursesDept' 'nurs' %}">Nursing</a></p>
+          </div>
+          <div
+            class="tab-pane fade"
+            id="nav-ds"
+            role="tabpanel"
+            aria-labelledby="nav-ds-tab"
+            style="overflow-y: scroll"
+          >
+            <p><a href="{% url 'coursesDept' 'ds' %}">Data Science</a></p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-1"></div>
+  </div>
+</div>
+
+{% endblock %}

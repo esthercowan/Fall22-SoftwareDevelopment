@@ -1,0 +1,81 @@
+{% extends 'base.html' %} {% block pagecontent %} {%load bootstrap5%}
+{%bootstrap_css%} {% load friendshiptags%}
+
+<figure class="text-center bg-white text-black">
+	<div class="h1">Make Request</div>
+</figure>
+<div class="container overflow-hidden">
+	<div class="row gx-5">
+	  <div class="col">
+	   <div class="p-4 border ">
+		<table class="table table-striped text-center">
+			<thead>
+				<tr>
+					<th style="width: 35%" scope="col">User</th>
+					<th style="width: 35%" scope="col">Email</th>
+					<th style="width: 15%" scope="col">Schedule</th>
+					<th style="width: 15%" scope="col">Send Request</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for thing in users %} {% if thing != user %} {% if thing in friendRequests%}
+				<tr>
+					<th scope="row">
+						{{thing.first_name}} {{thing.last_name}}
+					</th>
+					<th scope="row">
+						{{thing.email}}
+					</th>
+					<th scope="row">
+						<a
+							href="{% url 'friendSchedule' thing.username %}"
+							class="btn btn-primary btn-sm"
+							role="button"
+							>Go</a
+						>
+					</th>
+					<th scope = "row">
+						<a
+							href="/friends/request/unsend_friend_request/{{thing.id}}/"
+							class="btn btn-primary btn-sm"
+							role="button"
+							>Pending</a
+						>
+					</th>
+				</tr>
+				{% elif thing not in friends_friendRequests%}
+				<tr>
+					<th scope="row">
+						{{thing.first_name}} {{thing.last_name}}
+					</th>
+					<th scope="row">
+						{{thing.email}}
+					</th>
+					<th scope="row">
+						<a
+							href="{% url 'friendSchedule' thing.username %}"
+							class="btn btn-primary btn-sm"
+							role="button"
+							>Go</a
+						>
+					</th>
+					<th scope="row">
+						<a
+							href="/friends/request/send_friend_request/{{thing.id}}/"
+							class="btn btn-primary btn-sm"
+							role="button"
+							>Send Request</a
+						>
+					</th>
+				</tr>
+				{% endif %} {%endif%} {% endfor %}
+			</tbody>
+		</table>
+		
+	   </div>
+	  </div>
+	</div>
+  </div>
+
+
+{% endblock %}
